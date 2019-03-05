@@ -22,6 +22,12 @@ const routing = (request, response) => {
 	} else if(action.pathname === "/big-file") {
     response.writeHead(200, { "Content-Type": "application/json" })
     response.end()
+  } else if(action.pathName === "/whole-file") {
+    fs.readFile("./big-file", (err, data) => {
+      if(err) { throw err }
+
+      res.end(data)
+    })
   }
 }
 
@@ -32,4 +38,3 @@ httpServer.listen(httpPort, () => { console.log(`HTTP Server on port ${httpPort}
 httpsServer.listen(httpsPort, () => { console.log(`HTTPS Server on port ${httpsPort}`) })
 
 // Server functions
-
