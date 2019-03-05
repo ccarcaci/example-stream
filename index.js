@@ -2,7 +2,6 @@ var http = require("http")
 var https = require("https")
 var url = require("url")
 var fs = require("fs")
-const assert = require("assert")
 
 const httpsOptions = {
   key: fs.readFileSync(`${__dirname}/certs/privkey.pem`),
@@ -21,12 +20,16 @@ const routing = (request, response) => {
     response.end()
 	} else if(action.pathname === "/big-file") {
     response.writeHead(200, { "Content-Type": "application/json" })
-    response.end()
-  } else if(action.pathName === "/whole-file") {
-    fs.readFile("./big-file", (err, data) => {
+
+    const src = fs.createReadStream(`${__dirname}/big.file`)
+    src.pipe(response)
+  } else if(action.pathname === "/whole-file") {
+    fs.readFile(`${__dirname}/big.file`, (err, data) => {
       if(err) { throw err }
 
-      res.end(data)
+      response.end(data)
+
+      console.log("File sent!")
     })
   }
 }
