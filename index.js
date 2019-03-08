@@ -1,7 +1,7 @@
-var http = require("http")
-var https = require("https")
-var url = require("url")
-var fs = require("fs")
+const http = require("http")
+const https = require("https")
+const url = require("url")
+const fs = require("fs")
 
 const httpsOptions = {
   key: fs.readFileSync(`${__dirname}/certs/privkey.pem`),
